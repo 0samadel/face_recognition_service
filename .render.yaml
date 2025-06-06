@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: face-recognition-service
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: gunicorn app:app --bind 0.0.0.0:10000
+    envVars:
+      - key: PORT
+        value: 10000
