@@ -1,0 +1,5 @@
+cd /Users/osamaadel/Downloads/IAU/intelliface/face_recognition_service
+/opt/homebrew/bin/python3.10 -m venv venv
+source venv/bin/activate
+source venv39/bin/activate
+python app.py
