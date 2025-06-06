@@ -8,7 +8,7 @@ from PIL import Image
 import os
 from dotenv import load_dotenv
 
-# ✅ Load environment variables
+# ✅ Load environment variables from .env
 load_dotenv()
 
 app = Flask(__name__)
@@ -19,6 +19,12 @@ database_name = os.environ.get("DATABASE_NAME", "intelliface_db")
 client = MongoClient(mongo_uri)
 db = client[database_name]
 users_collection = db['users']
+
+# ✅ Test MongoDB connection
+try:
+    print("🔗 MongoDB Connected. Total user documents:", users_collection.count_documents({}))
+except Exception as e:
+    print("❌ MongoDB connection failed:", e)
 
 # ✅ Decode base64 image and convert to NumPy array
 def loadImageFromBase64(image_base64_str):
