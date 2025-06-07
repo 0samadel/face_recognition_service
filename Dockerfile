@@ -4,7 +4,7 @@ FROM facegen/face_recognition:latest
 # Set working directory
 WORKDIR /app
 
-# Install Mongo client
+# Install Mongo client and dotenv
 RUN pip install pymongo python-dotenv
 
 # Copy your app files
