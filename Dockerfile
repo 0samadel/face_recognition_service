@@ -1,22 +1,36 @@
-# ✅ Use a base image where dlib and face_recognition are already pre-installed
-FROM facegen/face_recognition:latest
+FROM python:3.9-slim
 
-# Set working directory
 WORKDIR /app
 
-# Install Mongo client and dotenv
-RUN pip install pymongo python-dotenv
+# Install system packages required to build dlib and face_recognition
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    libopenblas-dev \
+    liblapack-dev \
+    libx11-dev \
+    libgtk-3-dev \
+    libboost-python-dev \
+    libboost-system-dev \
+    libboost-thread-dev \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy your app files
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+# Copy the rest of the app
 COPY . .
 
-# Set environment variables
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=5001
 
-# Expose Flask port
 EXPOSE 5001
 
-# Start the Flask app
 CMD ["flask", "run"]
